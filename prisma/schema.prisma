@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleType {
+  ADMIN
+  USER
+  GUEST
+  EDITOR
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String   // Name should not be nullable
+  email      String   @unique
+  password   String
+  phone      String   @unique
+  role       RoleType @default(USER)  // Enum for role
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // Define relationship with Portfolio
+  createdPortfolios Portfolio[] @relation("PortfolioCreator")
+  updatedPortfolios Portfolio[] @relation("PortfolioUpdater")
+
+  @@map("users")
+}
+
+model Portfolio {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  type        VideoType  @default(REELS) 
+  youtubeLink String   @map("youtube_link")
+  isLive      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  createdBy   Int
+  updatedBy   Int?
+
+  // Relationships with User for tracking creator and updater
+  creator     User     @relation("PortfolioCreator", fields: [createdBy], references: [id])
+  updater     User?    @relation("PortfolioUpdater", fields: [updatedBy], references: [id])
+
+  @@index([createdBy], name: "idx_createdBy")
+  @@index([updatedBy], name: "idx_updatedBy")
+
+  @@map("portfolio")
+}
+
+enum VideoType {
+  REELS
+  TVC
+  SOCIAL_MEDIA_ADS
+  SHORT_FILMS
+  DOCUMENTARY
+  MUSIC_VIDEO
+  CORPORATE_FILMS
+  VLOGS
+  PODCAST
+  BRANDED_CONTENT
+  TRAINING_VIDEO
+  YOUTUBE_INFLUENCERS_EDIT
+}
+
+
+
+
+
+
+
+
+
+
+
+// model User {
+//   id         Int       @id @default(autoincrement())
+//   name       String?
+//   email      String    @unique
+//   password   String
+//   post       Post[]
+//   comment    Comment[]
+//   created_at DateTime  @default(now())
+// }
+
+// model Post {
+//   id            Int       @id @default(autoincrement())
+//   user          User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+//   user_id       Int
+//   title         String
+//   description   String
+//   comment_count BigInt    @default(0)
+//   created_at    DateTime  @default(now())
+//   comment       Comment[]
+// }
+
+// model Comment {
+//   id          String   @id @default(uuid())
+//   post        Post     @relation(fields: [post_id], references: [id], onDelete: Cascade)
+//   post_id     Int
+//   user        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+//   user_id     Int
+//   comment     String
+//   description String
+//   created_at  DateTime @default(now())
+// }

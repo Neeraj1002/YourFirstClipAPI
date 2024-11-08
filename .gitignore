@@ -1,0 +1,30 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Build artifacts
+dist/
+build/
+*.tgz
+
+# Temporary files
+*.tmp
+*.temp
+
+# Coverage reports
+coverage/
+
+package.json
