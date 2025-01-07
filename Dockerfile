@@ -1,7 +1,8 @@
 FROM node:20
 WORKDIR /var/www/manage
+RUN npm install -g pnpm
 COPY package.json ./
-RUN npm install
+RUN pnpm install
 COPY . .
 EXPOSE 8002
-CMD ["npm","run","start"]
+CMD ["pnpm","run","start"]
