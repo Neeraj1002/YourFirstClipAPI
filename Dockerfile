@@ -4,6 +4,10 @@ WORKDIR /var/www/manage
 
 COPY package*.json ./
 
+# Install OpenSSL and other required dependencies
+RUN apk add --no-cache openssl openssl-dev \
+    && apk add --no-cache libc6-compat
+
 # Install dependencies
 RUN npm install
 
