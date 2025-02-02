@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 RUN npx prisma generate
-RUN npx prism migrate dev --name init
+RUN npx prisma migrate dev --name init
 
 EXPOSE 8002
 
