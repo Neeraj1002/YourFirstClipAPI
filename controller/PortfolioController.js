@@ -9,7 +9,7 @@ export const fetchAllPortfolioData = async (req, res) => {
           title: true,
           description: true,
           type: true,
-          youtubeLink: true,
+          videoId: true,
           isLive: true,
           creator: {
             select: {
@@ -48,7 +48,7 @@ export const fetchAllPortfolioData = async (req, res) => {
           title: true,
           description: true,
           type: true,
-          youtubeLink: true,
+          videoId: true,
           isLive: true,
           creator: {
             select: {
@@ -107,13 +107,20 @@ export const createNewPortfolio = async (req, res) => {
           msg: "User does not exist",
         });
       }
+
+      const videoId = getYouTubeVideoId(youtubeLink);
+        
+      // Validate the extracted ID
+      if (youtubeLink && !videoId) {
+          return res.status(400).json({ status: 400, msg: "Invalid YouTube link" });
+      }
   
       const newPortfolio = await prisma.portfolio.create({
         data: {
           title,
           description,
           type,
-          youtubeLink,
+          videoId,
           isLive,
           creator: {
             connect: { id: creator }, // Link to an existing user with the given ID
@@ -173,13 +180,20 @@ export const updatePortfolio = async (req, res) => {
         }
       }
   
+      const videoId = getYouTubeVideoId(youtubeLink);
+        
+      // Validate the extracted ID
+      if (youtubeLink && !videoId) {
+          return res.status(400).json({ status: 400, msg: "Invalid YouTube link" });
+      }
+
       const updatedPortfolio = await prisma.portfolio.update({
         where: { id: Number(id) },
         data: {
           title: title || existingPortfolio.title,
           description: description || existingPortfolio.description,
           type: type || existingPortfolio.type,
-          youtubeLink: youtubeLink || existingPortfolio.youtubeLink,
+          videoId: videoId || existingPortfolio.videoId,
           isLive: typeof isLive === "boolean" ? isLive : existingPortfolio.isLive,
           updater: creator
             ? {
@@ -241,5 +255,20 @@ export const deletePortfolio = async (req, res) => {
       msg: "Failed to delete portfolio",
       error: error.message,
     });
+  }
+};
+
+
+const getYouTubeVideoId = (url) => {
+  try {
+      const parsedUrl = new URL(url);
+      if (parsedUrl.hostname.includes("youtube.com")) {
+          return parsedUrl.searchParams.get("v"); // Extract from "v" parameter
+      }
+      if (parsedUrl.hostname.includes("youtu.be")) {
+          return parsedUrl.pathname.substring(1); // Extract from path
+      }
+  } catch (error) {
+      return null; // Return null if URL is invalid
   }
 };
