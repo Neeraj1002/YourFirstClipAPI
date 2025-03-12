@@ -17,7 +17,6 @@ const allowedOrigins = [
     'https://your-first-clip.vercel.app/',
 ];
 
-const cors = require('cors');
 app.use(cors({
     origin: '*',  // Use specific origins for security in production
     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
