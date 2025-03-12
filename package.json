@@ -7,7 +7,8 @@
     "homepage": "https://lithoreact.themezaa.com/api/",
     "scripts": {
         "start": "node app.js",
-        "dev": "nodemon app.js"
+        "dev": "nodemon app.js",
+        "build": "echo 'No build step needed' "
     },
     "keywords": [],
     "author": "Your Name",
