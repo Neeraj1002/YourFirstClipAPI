@@ -63,7 +63,10 @@ export const login = async (req,res) => {
         throw new BadRequestsException('Incorrect password', ErrorCodes.INCORRECT_PASSWORD)
     }
 const token = jwt.sign({
-    userId: user.id
+    userId: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role
 }, JWT_SECRET,
 { expiresIn: '10m' })
 
