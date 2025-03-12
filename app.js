@@ -18,10 +18,10 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-    origin: '*',  // Use specific origins for security in production
+    origin: 'https://your-first-clip.vercel.app', // Replace with your frontend URL
     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: false,
+    credentials: true, // If you need credentials (cookies, auth tokens), set this to true
     preflightContinue: false,
     optionsSuccessStatus: 204
 }));
