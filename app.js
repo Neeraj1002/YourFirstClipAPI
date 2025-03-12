@@ -21,7 +21,7 @@ app.use(cors({
     origin: '*',  // Use specific origins for security in production
     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
+    credentials: false,
     preflightContinue: false,
     optionsSuccessStatus: 204
 }));
