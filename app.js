@@ -17,19 +17,16 @@ const allowedOrigins = [
     'https://your-first-clip.vercel.app/',
 ];
 
+const cors = require('cors');
 app.use(cors({
-    origin: (origin, callback) => {
-        // Allow requests with no origin (e.g., mobile apps, Postman)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.includes(origin)) {
-            return callback(null, true);
-        } else {
-            return callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: '*',  // Use specific origins for security in production
+    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204
 }));
+
 
 
 
