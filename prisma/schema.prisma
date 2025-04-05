@@ -42,7 +42,7 @@ model Portfolio {
   id          Int      @id @default(autoincrement())
   title       String
   description String?
-  type        VideoType  @default(REELS) 
+  type        VideoType  @default(REEL) 
   videoId    String   @map("youTubeId")
   isLive      Boolean  @default(false)
   createdAt   DateTime @default(now())
@@ -62,16 +62,17 @@ model Portfolio {
 }
 
 enum VideoType {
-  REELS
+  REEL
   TVC
-  SOCIAL_MEDIA_ADS
-  SHORT_FILMS
+  SOCIAL_MEDIA_AD
+  SHORT_FILM
   DOCUMENTARY
   MUSIC_VIDEO
-  CORPORATE_FILMS
-  VLOGS
+  CORPORATE_FILM
+  VLOG
   PODCAST
   BRANDED_CONTENT
   TRAINING_VIDEO
   YOUTUBE_INFLUENCERS_EDIT
 }
+
