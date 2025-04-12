@@ -14,18 +14,22 @@ const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3001', // If you still need it
     'https://yourfirstclip.com',
-    'https://your-first-clip.vercel.app/',
+    'https://your-first-clip.vercel.app',
 ];
 
 app.use(cors({
-    origin: '*',  // Use specific origins for security in production
-    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: (origin, callback) => {
+        // Allow requests with no origin (e.g., mobile apps, Postman)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        } else {
+            return callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
-    preflightContinue: false,
-    optionsSuccessStatus: 204
 }));
-
 
 
 
