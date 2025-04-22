@@ -13,7 +13,7 @@ const PORT = process.env.PORT;
 const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3001', // If you still need it
-    'https://yourfirstclip.com',
+    'https://www.yourfirstclip.com',
     'https://your-first-clip.vercel.app',
 ];
 
