@@ -12,21 +12,24 @@ const PORT = process.env.PORT;
 //cors allow
 const allowedOrigins = [
     'http://localhost:3000',
-    'http://localhost:3001', // If you still need it
-    'https://yourfirstclip.com',
-    'https://your-first-clip.vercel.app/',
+    'http://localhost:3001',
+    'https://www.yourfirstclip.com',
+    'https://your-first-clip.vercel.app',
 ];
 
 app.use(cors({
-    origin: 'https://your-first-clip.vercel.app', // Replace with your frontend URL
-    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true, // If you need credentials (cookies, auth tokens), set this to true
-    preflightContinue: false,
-    optionsSuccessStatus: 204
+    origin: (origin, callback) => {
+
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        } else {
+            return callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
 }));
-
-
 
 
 // Middleware for parsing request bodies
